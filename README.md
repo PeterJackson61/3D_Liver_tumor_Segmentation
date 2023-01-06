@@ -47,4 +47,6 @@
 * Run the main file to train
 ### Evaluation 
 * Dice similarity index method calculated according to the paper [link](https://www.researchgate.net/publication/341806059_3D_Liver_and_Tumor_Segmentation_with_CNNs_Based_on_Region_and_Distance_Metrics)
-* Tumor segmentation accuracy reached 93.4% 
+* Liver segmentation: Unet 92.7%
+* Tumor segmentation: Unet 55.77% 
+
