@@ -49,4 +49,4 @@
 * Dice similarity index method calculated according to the paper [link](https://www.researchgate.net/publication/341806059_3D_Liver_and_Tumor_Segmentation_with_CNNs_Based_on_Region_and_Distance_Metrics)
 * Liver segmentation (tumor excluded): Unet 92.7%, liver segmentation (tumor included) 93.4%
 * Tumor segmentation: Unet 55.77% 
-* According to this paper, [link] (https://arxiv.org/ftp/arxiv/papers/2208/2208.13271.pdf), the liver segmentation result showed competitive result.
+* According to this paper, [link](https://arxiv.org/ftp/arxiv/papers/2208/2208.13271.pdf), the liver segmentation result showed competitive result
