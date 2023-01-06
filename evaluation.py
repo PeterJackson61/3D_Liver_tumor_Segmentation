@@ -31,24 +31,35 @@ def make_prediction(IDX):
     pred = output_tensor.argmax(0)
     return pred, mask, imgs
 def dice_coef_trial(mask_,mask_label_):
+    smooth = 1
     numerator = (mask_*mask_label_).ravel()
     sum_nume = numerator.sum()
-    val_nume = sum_nume.item()
+    val_nume = sum_nume.item()+smooth
     denominator = (mask_*mask_+mask_label_*mask_label_).ravel()
     sum_deno = denominator.sum()
-    val_deno = sum_deno.item()
-    try:
-        return 2*val_nume/val_deno
-    except:
-        return 999
-dice_list = []
-for i in range(0,len(val_dataset)):
+    val_deno = sum_deno.item()+smooth
+    dice_coef = 2*val_nume/val_deno
+    if dice_coef == 2:
+        return 1
+    else:
+        return dice_coef
+dice_list_tumor = []
+dice_list_liver = []
+for i in tqdm(range(0,len(val_dataset))):
     pred,mask,imgs = make_prediction(i)
-    mask_ = np.where(pred >= 1, 1, 0)
-    mask_label = np.where(mask[0, :, :, :] >= 1, 1, 0)
-    dice = dice_coef_trial(mask_,mask_label)
-    if dice < 1:
-        dice_list.append(dice)
-print("Dice similarity index of the model is: ", sum(dice_list)/len(dice_list))
+    mask_tumor = np.where(pred > 1, 1, 0)
+    mask_liver = np.where(pred==1,1,0)
+    mask_label_tumor = np.where(mask[0, :, :, :] > 1, 1, 0)
+    mask_label_liver = np.where(mask==1,1,0)
+    dice = dice_coef_trial(mask_tumor,mask_label_tumor)
+    dice_liver = dice_coef_trial(mask_liver, mask_label_liver)
+    dice_list_tumor.append(dice)
+    dice_list_liver.append(dice_liver)
+print("Dice similarity index of the model with tumor is: ", sum(dice_list_tumor)/len(dice_list_tumor))
+for dice in dice_list_tumor:
+    print(dice)
+print("Dice similarity index of the model with liver is: ", sum(dice_list_liver)/len(dice_list_liver))
+for dice in dice_list_liver:
+    print(dice)
 
 
